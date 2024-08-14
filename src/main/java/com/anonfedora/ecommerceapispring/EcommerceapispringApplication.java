@@ -1,0 +1,13 @@
+package com.anonfedora.ecommerceapispring;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class EcommerceapispringApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(EcommerceapispringApplication.class, args);
+	}
+
+}
