@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,9 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
     private final JwtAuthenticaitonFilter jwtAuthenticaitonFilter;
-    @Autowired
     private UserDetailsService userDetailsService;
 
     public SecurityConfig(JwtAuthenticaitonFilter jwtAuthenticaitonFilter, UserDetailsService userDetailsService) {
@@ -44,13 +43,19 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder())
-                .and()
-                .build();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
+
+    // @Bean
+    // public AuthenticationManager authenticationManager(HttpSecurity http) throws
+    // Exception {
+    // return http.getSharedObject(AuthenticationManagerBuilder.class)
+    // .userDetailsService(userDetailsService)
+    // .passwordEncoder(passwordEncoder())
+    // .and()
+    // .build();
+    // }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
